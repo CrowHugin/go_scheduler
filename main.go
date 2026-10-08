@@ -1,10 +1,9 @@
 package main
 
 import (
-		"fmt"
-		"errors"
-		"os"
-		"io"
+	"fmt"
+	"os"
+	"go_scheduler/file"
 )
 
 type givenInfos struct {
@@ -15,15 +14,15 @@ type givenInfos struct {
 
 func main() {
 	fileName := "test.txt"
-	file, err := os.Open(fileName)
+	file_, err := os.Open(fileName)
 
 	if err != nil {
 		fmt.Printf("Cannot open file:\n%v", err)
 		return
 	}
-	defer file.Close()
+	defer file_.Close()
 
-	bytes, err := ReadFile(file)
+	bytes, err := file.ReadFile(file_)
 	if err != nil {
 		fmt.Println("Error while reading file")
 		return
@@ -39,22 +38,6 @@ func main() {
 	// fmt.Println(test.node)
 }
 
-func ReadFile(file *os.File) ([]byte, error) {
-  buffer := make([]byte, 0, 512)
-  for {
-    if len(buffer) == cap(buffer) {
-      buffer = append(buffer, 0)[:len(buffer)]
-    }
-    offset, err := file.Read(buffer[len(buffer):cap(buffer)])
-    buffer = buffer[:len(buffer)+offset]
-    if err != nil {
-      if errors.Is(err, io.EOF) {
-        err = nil
-      }
-      return buffer, err
-    }
-  }
-}
 // func takeInfos() (givenInfos, error){
 // 	fileError := errors.New("cannot create struct")
 // 	test := givenInfos {
