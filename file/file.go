@@ -1,9 +1,11 @@
 package file
 
 import (
-	"os"
 	"errors"
 	"io"
+	"os"
+	"strings"
+	// "fmt"
 )
 
 func ReadFile(file *os.File) ([]byte, error) {
@@ -21,4 +23,26 @@ func ReadFile(file *os.File) ([]byte, error) {
       return buffer, err
     }
   }
+}
+
+func CheckContent(data string) error {
+	keyError := errors.New("key isn't 'user', 'mode' or 'node'")
+	lines := strings.Split(data, "\n")
+	for _, l := range lines {
+		l = strings.TrimSpace(l)
+		if l == ""{
+			continue
+		}
+		parts := strings.Split(l, ":")
+		if len(parts) < 2 {
+			return keyError
+		}
+
+		key := strings.TrimSpace(parts[0])
+
+		if key != "user" && key != "mode" && key != "node"{
+			return keyError
+		}
+	}
+	return nil
 }

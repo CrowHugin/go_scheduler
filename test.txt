@@ -1,1 +1,2 @@
-test
+user:test,mode:quick,node:18
+user:test,mode:quick,node:18

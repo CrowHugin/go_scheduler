@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"go_scheduler/file"
+	"os"
 )
 
 type givenInfos struct {
@@ -27,7 +27,11 @@ func main() {
 		fmt.Println("Error while reading file")
 		return
 	}
-	fmt.Println(string(bytes))
+	err = file.CheckContent(string(bytes))
+	if err != nil {
+		fmt.Printf("Error:\n%v", err)
+	}
+	// fmt.Println(string(bytes))
 	// test, err := takeInfos()
 	// if err != nil {
 	// 	fmt.Printf("ERROR:\n%v", err)
