@@ -40,7 +40,7 @@ func setupNode(nbNode int) (*node, error){
 		newNode := &node{nb: i}
 		current.next = newNode
 		current.run.id = 1
-		current.run.name = "test jobs"
+		current.run.name = "'test jobs'"
 		current.run.user = "bku"
 		current.run.size = 13
 		// parsing de file
@@ -63,12 +63,13 @@ func showNode(queue *node, nbNode int) (error){
 }
 
 // shows the job with the given id
+// any inside of id later on
 func ShowJob(id int, queue *node, nbNode int) (error) {
 	IdNotFoundError := errors.New("Cannot find id")
 	current := queue
 	for i:=0;i<nbNode && current != nil;i++{
 		if id == current.run.id{
-			fmt.Printf("%v\n", current.run)
+			fmt.Printf("id: %d | name: %s | user: %s | size: %d\n", current.run.id, current.run.name, current.run.user, current.run.size)
 			fmt.Printf("%d\n", current.nb)
 			return nil
 		}
@@ -84,8 +85,11 @@ func LaunchSimu() (error) {
 	if err != nil{
 		return err
 	}
-	showNode(queue, maxNode)
-	ShowJob(1, queue, maxNode)
+	// showNode(queue, maxNode)
+	err = ShowJob(1, queue, maxNode)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
