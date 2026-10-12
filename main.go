@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	// "errors"
-
-	"go_scheduler/virt"
+	"go_scheduler/simu"
 )
 
 type givenInfos struct {
@@ -14,10 +13,11 @@ type givenInfos struct {
 }
 
 func main() {
-	err := virt.LaunchSimu()
+	jobs, err := simu.LaunchSimu(5)
 	if err != nil {
 		fmt.Printf("Error:\n%v", err)
 	}
+	fmt.Println(jobs)
 	// test, err := takeInfos()
 	// if err != nil {
 	// 	fmt.Printf("ERROR:\n%v", err)

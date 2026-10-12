@@ -1,9 +1,8 @@
-package virt
+package queues
 
 import (
 	"fmt"
 	"errors"
-	// "os"
 )
 
 type state int 
@@ -27,7 +26,7 @@ type node struct {
 	run	job
 }
 
-func setupNode(nbNode int) (*node, error){
+func SetupNode(nbNode int) (*node, error){
 	NodeError := errors.New("while creating nodes / queue")
 	fmt.Println("----------\nCreating nodes\n----------")
 	if nbNode <= 0 {
@@ -63,7 +62,7 @@ func showNode(queue *node, nbNode int) (error){
 }
 
 // shows the job with the given id
-// any inside of id later on
+// any instead of id later on - so job can be found by user size etc
 func ShowJob(id int, queue *node, nbNode int) (error) {
 	IdNotFoundError := errors.New("Cannot find id")
 	current := queue
@@ -76,20 +75,4 @@ func ShowJob(id int, queue *node, nbNode int) (error) {
 		current = current.next
 	}
 	return IdNotFoundError
-}
-
-func LaunchSimu() (error) {
-	maxNode := 10
-	fmt.Println("launching virtu")
-	queue, err := setupNode(maxNode)
-	if err != nil{
-		return err
-	}
-	// showNode(queue, maxNode)
-	err = ShowJob(1, queue, maxNode)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
