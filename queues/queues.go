@@ -91,13 +91,52 @@ func ShowNodes(queue *Node){
 	}
 }
 
-func showNode(queue *Node, nbNode int) (error){
+func ShowNode(queue *Node, nbNode int){
+	if queue == nil {
+		fmt.Println("Queue is empty")
+		return 
+	}
 	current := queue
 	for i:=0; i < nbNode && current != nil ;i++{
-		fmt.Printf("Node index: %d: %v\n", i, current.run)
 		current = current.next
 	}
-	return nil
+	if current == nil {
+		fmt.Printf("Node index %d not found", nbNode)
+		return
+	}
+	fmt.Printf("Node index: %d: %v\n", current.nb, current.run)
+}
+
+func reindexQueue(queue *Node) {
+	current := queue
+	index := 0
+	for current != nil {
+		current.nb = index
+		index++
+		current = current.next
+	}
+}
+
+func DelNode(id int, queue **Node) (error){
+	if queue == nil || *queue == nil {
+		return errors.New("Queue is empty")
+	}
+	
+	if (*queue).nb == id {
+		*queue = (*queue).next
+		reindexQueue(*queue)
+		return nil
+	}
+	current := *queue
+	for current.next != nil {
+		if current.next.nb == id {
+			current.next = current.next.next
+			reindexQueue(*queue)
+			return nil
+		}
+		current = current.next
+	}
+	return errors.New("node not in queue")
 }
 
 // shows the job with the given id
